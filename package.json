@@ -1,14 +1,28 @@
 {
   "name": "gitbuddy",
   "version": "1.0.0",
-  "description": "",
+  "description": "Implement git best practices without skipping a beat.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Josh Levy"
+  },
+  "keywords": [
+    "git",
+    "vcs",
+    "command",
+    "utility",
+    "helper",
+    "terminal",
+    "shell"
+  ],
+  "license": "MIT",
+  "preferGlobal": true,
+  "bin": {
+    "gitbuddy": "./bin/index.js"
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
