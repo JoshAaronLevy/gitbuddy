@@ -5,16 +5,10 @@ const index = require('../lib/index.js');
 program
   .description(`Example: gitbuddy "I fixed a bug"`)
   .option('[message]')
-  .option('-c, --commit')
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
-    let commit = command.commit;
-    if (!commit) {
-      commit = false;
-    } else {
-      commit = true;
-    }
-    await index(message, commit);
+    command = command.args[0];
+    await index(message, command);
   });
 
 program.parse(process.argv);
