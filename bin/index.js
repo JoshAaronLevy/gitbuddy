@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const program = require('commander');
-// const runner = require('../lib/runner.js');
 const index = require('../lib/index.js');
 
 program
