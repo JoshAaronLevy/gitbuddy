@@ -7,7 +7,7 @@ program
   .option('[message]')
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
-    command = command.args[0];
+    console.log(command);
     await index(message, command);
   });
 
