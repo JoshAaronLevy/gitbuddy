@@ -8,6 +8,7 @@ program
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
     console.log(command);
+    console.log(message);
     await index(message, command);
   });
 
