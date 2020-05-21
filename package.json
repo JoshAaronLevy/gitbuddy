@@ -1,6 +1,6 @@
 {
   "name": "gitbuddy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Implement git best practices without skipping a beat.",
   "main": "index.js",
   "scripts": {
