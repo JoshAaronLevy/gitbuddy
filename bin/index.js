@@ -7,9 +7,12 @@ program
   .option('[message]')
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
-    console.log(message);
-    console.log(command);
-    await index(message, command);
+    if (!command || command === undefined) {
+      await index(message);
+    } else {
+      command = command.args[0];
+      await index(message, command);
+    }
   });
 
 program.parse(process.argv);
