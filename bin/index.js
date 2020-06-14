@@ -4,14 +4,17 @@ const index = require('../lib/index.js');
 
 program
   .description(`Example: gitbuddy "I fixed a bug"`)
-  .option('[message]')
+  .option('[message]', 'Commit message')
+  .option('-A, -a, --all', 'Stage all files')
+  .option('-p, --push', 'Automatically push to remote repository')
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
     if (!command || command === undefined) {
-      await index(message);
+      command = message;
+      await index(command);
     } else {
-      command = command.args[0];
-      await index(message, command);
+      // message = command.args[0];
+      await index(command);
     }
   });
 
