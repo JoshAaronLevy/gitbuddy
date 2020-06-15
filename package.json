@@ -1,7 +1,7 @@
 {
   "name": "gitbuddy",
-  "version": "1.0.1",
-  "description": "Implement git best practices without skipping a beat.",
+  "version": "2.0.3",
+  "description": "The best git friend you've ever had.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
