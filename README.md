@@ -1,1 +1,3 @@
 # GitBuddy
+
+## What is GitBuddy?
