@@ -1,6 +1,6 @@
 {
   "name": "gitbuddy",
-  "version": "2.1.3",
+  "version": "2.2.4",
   "description": "The best git friend you've ever had.",
   "main": "index.js",
   "scripts": {
