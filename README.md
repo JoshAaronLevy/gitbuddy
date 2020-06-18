@@ -1,6 +1,4 @@
-# GitBuddy
 
-## What is GitBuddy?
+# Git is your Buddy
 
-GitBuddy is a CLI tool that allows you to easily execute a variety of git commands.
-
+## Test
