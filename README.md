@@ -46,8 +46,14 @@ To add your commit message (and skip the commit message prompt):
 gitbuddy "Your commit message"
 ```
 
-Or mix and match options (ex: add your commit message and -p, and you will only be prompted to select files to stage. GitBuddy does the rest):
+Mix and match options (ex: add your commit message and -p, and you will only be prompted to select files to stage. GitBuddy does the rest):
 
 ```bash
 gitbuddy -p "Your commit message"
+```
+
+Or chain the options together (in no particular order) to run it all in one command:
+
+```bash
+gitbuddy -a -p "Your commit message"
 ```
