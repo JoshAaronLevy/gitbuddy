@@ -13,7 +13,6 @@ program
       command = message;
       await index(command);
     } else {
-      // message = command.args[0];
       await index(command);
     }
   });
