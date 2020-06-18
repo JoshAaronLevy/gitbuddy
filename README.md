@@ -28,13 +28,14 @@ gitbuddy
 
 > Step 3/3: Confirm whether you want to push your changes to your remote repository or not. GitBuddy even identifies and pushes upstream if your branch doesn't exist in the remote repository yet!
 
-To stage all files (and skip to the commit message prompt):
+
+To stage all files (and skip to the commit message prompt), use the `-a` or `-A` flag:
 
 ```bash
 gitbuddy -a
 ```
 
-To push to your remote repository by default (skipping the last prompt):
+To push to your remote repository by default (skipping the last prompt), use the `-p` flag:
 
 ```bash
 gitbuddy -p
