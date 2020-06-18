@@ -1,9 +1,0 @@
-{
-  "options": {
-    "master-warning": true,
-    "master-restricted": false,
-    "pull-from-master": true,
-    "commit-only": false,
-    "minimum-characters": 2
-  }
-}
