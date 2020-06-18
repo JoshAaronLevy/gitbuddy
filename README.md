@@ -18,6 +18,15 @@ For the full prompt process:
 ```bash
 gitbuddy
 ```
+> Step 1/3: Lists all available modified and untracked files to select from. Select one or multiple.
+
+
+
+> Step 2/3: Simply type your commit message.
+
+
+
+> Step 3/3: Confirm whether you want to push your changes to your remote repository or not. GitBuddy even identifies and pushes upstream if your branch doesn't exist in the remote repository yet!
 
 To stage all files (and skip to the commit message prompt):
 
