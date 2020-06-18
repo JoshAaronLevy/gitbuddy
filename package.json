@@ -1,7 +1,15 @@
 {
   "name": "gitbuddy",
-  "version": "2.7.5",
+  "version": "2.8.5",
   "description": "The best git friend you've ever had.",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "url": "https://github.com/JoshAaronLevy/gitbuddy",
+    "type": "git",
+    "directory": "git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
