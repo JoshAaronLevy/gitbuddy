@@ -90,3 +90,8 @@ gitbuddy -a -p "Your commit message"
 ```
 
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_All_Flags-min.gif)
+
+
+## Coming Soon
+
+1. Easy branch management
