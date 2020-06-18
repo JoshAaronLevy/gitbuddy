@@ -35,6 +35,8 @@ gitbuddy
 
 ## Options/Flags
 
+### Add All Flag
+
 **To stage all files (and skip to the commit message prompt), use the `-a` or `-A` flag:**
 
 ```bash
@@ -43,6 +45,8 @@ gitbuddy -a
 
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_Add_Flag-min.gif)
 
+
+### Auto Push Flag
 
 **To push to your remote repository by default (skipping the last prompt), use the `-p` flag:**
 
@@ -53,6 +57,8 @@ gitbuddy -p
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_P_Flag-min.gif)
 
 
+### Commit Message Option
+
 **To add your commit message (and skip the commit message prompt):**
 
 ```bash
@@ -62,7 +68,11 @@ gitbuddy "Your commit message"
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_Commit_Flag-min.gif)
 
 
-**Mix and match options (ex: add your commit message and -p, and you will only be prompted to select files to stage. GitBuddy does the rest):**
+### Mix-and-Match Flags/Options
+
+**Mix and match flags/options to initiate only the prompt(s) you want:**
+
+i.e. Add your commit message and -p, and you will only be prompted to select files to stage. GitBuddy does the rest
 
 ```bash
 gitbuddy -p "Your commit message"
@@ -71,7 +81,9 @@ gitbuddy -p "Your commit message"
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_Combo_Flags-min.gif)
 
 
-**Or chain the options together (in no particular order) to run it all in one command:**
+### All-in-One Command
+
+**Chain all the options together (in no particular order) to add, commit, and push, all in just one command:**
 
 ```bash
 gitbuddy -a -p "Your commit message"
