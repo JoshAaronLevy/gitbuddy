@@ -7,9 +7,9 @@
     "type": "git",
     "directory": "git"
   },
-  "main": "index.js",
+  "main": "./bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm version patch && npm publish",
     "start": "node index.js"
   },
   "author": {
