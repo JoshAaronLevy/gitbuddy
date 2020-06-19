@@ -1,0 +1,6 @@
+{
+  "defaults": {
+    "always-push": false,
+    "never-push": false
+  }
+}

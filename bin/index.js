@@ -7,6 +7,7 @@ program
   .option('[message]', 'Commit message')
   .option('-A, -a, --all', 'Stage all files')
   .option('-p, --push', 'Automatically push to remote repository')
+  .option('-c, --config', 'Automatically push to remote repository')
   .version('2.1.1', '-v, --version')
   .action(async (message, command) => {
     if (!command || command === undefined) {
