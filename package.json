@@ -1,11 +1,14 @@
 {
   "name": "gitbuddy",
-  "version": "2.11.7",
+  "version": "2.12.7",
   "description": "The best git friend you've ever had.",
   "repository": {
     "url": "https://github.com/JoshAaronLevy/gitbuddy",
     "type": "git",
     "directory": "git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "main": "./bin/index.js",
   "scripts": {
