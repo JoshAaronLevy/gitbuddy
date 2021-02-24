@@ -1,0 +1,24 @@
+{
+  "name": "gitbuddy",
+  "version": "2.12.7",
+  "repository": "https://github.com/JoshAaronLevy/gitbuddy",
+  "defaults": {
+    "friendly-output": [
+      {
+        "on-success": true,
+        "on-error": true
+      }
+    ],
+    "restrict-push-to-master": false,
+    "stage-all": false,
+    "attempt-pull-on-prompt": true,
+    "push-to-remote-branch": false,
+    "create-upstream-branch": false,
+    "file-threshold-alert": [
+      true,
+      {
+        "threshold-count": 4
+      }
+    ]
+  }
+}
