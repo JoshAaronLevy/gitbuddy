@@ -7,12 +7,8 @@
     "type": "git",
     "directory": "git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "main": "./bin/index.js",
   "scripts": {
-    "publish": "npm version patch && npm publish",
     "start": "node index.js"
   },
   "author": {
