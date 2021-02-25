@@ -9,8 +9,6 @@ program
   .option('-p, --push', 'Automatically push to remote repository')
   .version('2.12.12', '-v, --version')
   .action(async (message, command) => {
-    console.log(message);
-    console.log(command);
     if (!command || command === undefined) {
       command = message;
       await index(command);
