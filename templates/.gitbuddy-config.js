@@ -1,7 +1,7 @@
-{
-  "name": "gitbuddy",
-  "version": "2.12.12",
-  "repository": "https://github.com/JoshAaronLevy/gitbuddy",
+module.exports = function createPackageJsonContent(projName) {
+  const configContent = 
+`{
+  "repository": "",
   "branches": [
     {
       "local": [],
@@ -21,10 +21,13 @@
     "push-to-remote-branch": false,
     "create-upstream-branch": false,
     "file-threshold-alert": [
-      true,
+      false,
       {
         "threshold-count": 4
       }
     ]
   }
 }
+`
+  return configContent;
+};
