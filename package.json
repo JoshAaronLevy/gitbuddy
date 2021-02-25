@@ -1,6 +1,6 @@
 {
   "name": "gitbuddy",
-  "version": "2.14.14",
+  "version": "2.15.14",
   "description": "The best git friend you've ever had.",
   "repository": {
     "url": "https://github.com/JoshAaronLevy/gitbuddy",
@@ -46,7 +46,8 @@
     "minimist": "^1.2.5",
     "mkdirp": "^1.0.4",
     "ora": "^4.0.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "slash": "^3.0.0"
   },
   "devDependencies": {
     "debug": "^4.1.1"
