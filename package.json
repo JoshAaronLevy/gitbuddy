@@ -31,10 +31,15 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "child_process": "^1.0.2",
     "commander": "^3.0.2",
+    "deepmerge": "^4.2.2",
     "enquirer": "^2.3.5",
+    "events": "^3.2.0",
     "execa": "^3.2.0",
     "fs-extra": "^9.1.0",
+    "listr": "^0.14.3",
+    "mkdirp": "^1.0.4",
     "ora": "^4.0.2",
     "path": "^0.12.7"
   },
