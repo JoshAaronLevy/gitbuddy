@@ -8,8 +8,8 @@ program
   .option('[message]', 'Commit message')
   .option('-A, -a, --all', 'Stage all files')
   .option('-p, --push', 'Automatically push to remote repository')
-  .option('-b, --branch', 'Create new branch')
-  .option('-c, --cleanup', 'Clean up branches')
+  .option('b, branch', 'Create new branch')
+  .option('c, cleanup', 'Clean up branches')
   .version('2.23.23', '-v, --version')
   .action(async (message, command) => {
     if (message.cleanup === true) {
