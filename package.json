@@ -1,6 +1,6 @@
 {
   "name": "gitbuddy",
-  "version": "2.25.25",
+  "version": "2.26.26",
   "description": "The best git friend you've ever had.",
   "repository": {
     "url": "https://github.com/JoshAaronLevy/gitbuddy",
@@ -31,23 +31,12 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "child_process": "^1.0.2",
     "commander": "^3.0.2",
-    "deepmerge": "^4.2.2",
     "enquirer": "^2.3.5",
-    "events": "^3.2.0",
     "execa": "^3.2.0",
-    "fs-extra": "^9.1.0",
     "functional-promises": "^2.0.2",
-    "handlebars": "^4.7.7",
     "inquirer": "^7.3.3",
-    "listr": "^0.14.3",
-    "lodash": "^4.17.21",
-    "minimist": "^1.2.5",
-    "mkdirp": "^1.0.4",
-    "ora": "^4.0.2",
-    "path": "^0.12.7",
-    "slash": "^3.0.0"
+    "ora": "^4.0.2"
   },
   "devDependencies": {
     "debug": "^4.1.1"
