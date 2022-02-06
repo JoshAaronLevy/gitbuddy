@@ -9,7 +9,7 @@
   },
   "main": "./bin/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node bin/index.js"
   },
   "author": {
     "name": "Josh Levy"
