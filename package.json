@@ -1,6 +1,6 @@
 {
   "name": "gitbuddy",
-  "version": "3.31.9",
+  "version": "3.5.1",
   "description": "The best git friend you've ever had.",
   "repository": {
     "url": "https://github.com/JoshAaronLevy/gitbuddy",
@@ -9,7 +9,8 @@
   },
   "main": "./bin/index.js",
   "scripts": {
-    "start": "node bin/index.js"
+    "start": "node bin/index.js",
+    "publish": "git add -A && git commit -m 'Updated version' && git push && npm publish"
   },
   "author": {
     "name": "Josh Levy"
