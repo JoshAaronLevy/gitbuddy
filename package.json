@@ -38,6 +38,7 @@
     "ora": "^4.0.2"
   },
   "devDependencies": {
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "eslint": "^8.34.0"
   }
 }
