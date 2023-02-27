@@ -11,7 +11,7 @@ program
 	.option('-p, --push', 'Automatically push to remote repository')
 	.option('b, branch', 'Create new branch')
 	.option('c, cleanup', 'Clean up branches')
-	.version('3.5.2', '-v, --version')
+	.version('3.5.3', '-v, --version')
 	.action(async (message, command) => {
 		if (message.cleanup === true || message.c === true) {
 			command = message;
