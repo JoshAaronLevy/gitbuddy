@@ -1,45 +1,45 @@
 {
-  "name": "gitbuddy",
-  "version": "3.5.3",
-  "description": "The best git friend you've ever had.",
-  "repository": {
-    "url": "https://github.com/JoshAaronLevy/gitbuddy",
-    "type": "git",
-    "directory": "git"
-  },
-  "main": "./bin/index.js",
-  "scripts": {
-    "start": "node bin/index.js",
-    "deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
-  },
-  "author": {
-    "name": "Josh Levy"
-  },
-  "keywords": [
-    "git",
-    "cli",
-    "vcs",
-    "command",
-    "utility",
-    "helper",
-    "terminal",
-    "shell"
-  ],
-  "license": "MIT",
-  "preferGlobal": true,
-  "bin": {
-    "gitbuddy": "./bin/index.js"
-  },
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^3.0.2",
-    "enquirer": "^2.3.6",
-    "execa": "^3.2.0",
-    "functional-promises": "^2.0.2",
-    "ora": "^4.0.2"
-  },
-  "devDependencies": {
-    "debug": "^4.1.1",
-    "eslint": "^8.35.0"
-  }
+	"name": "gitbuddy",
+	"version": "3.5.5",
+	"description": "The best git friend you've ever had.",
+	"repository": {
+		"url": "https://github.com/JoshAaronLevy/gitbuddy",
+		"type": "git",
+		"directory": "git"
+	},
+	"main": "./bin/index.js",
+	"scripts": {
+		"start": "node bin/index.js",
+		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
+	},
+	"author": {
+		"name": "Josh Levy"
+	},
+	"keywords": [
+		"git",
+		"cli",
+		"vcs",
+		"command",
+		"utility",
+		"helper",
+		"terminal",
+		"shell"
+	],
+	"license": "MIT",
+	"preferGlobal": true,
+	"bin": {
+		"gitbuddy": "./bin/index.js"
+	},
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"commander": "^3.0.2",
+		"enquirer": "^2.3.6",
+		"execa": "^3.2.0",
+		"functional-promises": "^2.0.2",
+		"ora": "^4.0.2"
+	},
+	"devDependencies": {
+		"debug": "^4.1.1",
+		"eslint": "^8.35.0"
+	}
 }
