@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require("commander");
-const core = require("../lib/core.js");
+const main = require("../lib/main.js");
 const cleanup = require("../lib/cleanup.js");
 const branch = require("../lib/branch.js");
 
@@ -21,9 +21,9 @@ program
 			await branch(command);
 		} else if (!command || command === undefined) {
 			command = message;
-			await core(command);
+			await main(command);
 		} else {
-			await core(command);
+			await main(command);
 		}
 	});
 
