@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const program = require("commander");
-const core = require("../lib/core.js");
+const main = require("../lib/main.js");
 const cleanup = require("../lib/cleanup.js");
 const branch = require("../lib/branch.js");
 
@@ -11,8 +11,10 @@ program
 	.option("-p, --push", "Automatically push to remote repository")
 	.option("b, branch", "Create new branch")
 	.option("c, cleanup", "Clean up branches")
-	.version("3.6.6", "-v, --version")
+	.version("4.0.2", "-v, --version")
 	.action(async (message, command) => {
+		console.log("message: ", message);
+		console.log("command: ", command);
 		if (message.cleanup === true || message.c === true) {
 			command = message;
 			await cleanup(command);
@@ -21,9 +23,9 @@ program
 			await branch(command);
 		} else if (!command || command === undefined) {
 			command = message;
-			await core(command);
+			await main(command);
 		} else {
-			await core(command);
+			await main(command);
 		}
 	});
 
