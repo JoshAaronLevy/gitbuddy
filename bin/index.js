@@ -9,7 +9,7 @@ program
 	.option("-A, -a, --all", "Stage all files")
 	.option("-p, --push", "Automatically push to remote repository")
 	.option("-b, --branch", "Manage branches")
-	.version("4.0.3", "-v, --version")
+	.version("4.4.4", "-v, --version")
 	.action(async (message, command) => {
 		if (message.branch === true || message.b === true) {
 			command = message;
