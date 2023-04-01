@@ -18,6 +18,10 @@ npm install -g gitbuddy
 gitbuddy
 ```
 
+## NEW! - Easy Branch Management
+
+## Staging, Committing and Pushing Your Changes
+
 > Step 1/3: Lists all available modified and untracked files to select from. Select one or multiple.
 
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_Step_1-min.gif)
@@ -83,7 +87,3 @@ gitbuddy -a -p "Your commit message"
 ```
 
 ![](https://gitbuddy.s3-us-west-2.amazonaws.com/GitBuddy_All_Flags-min.gif)
-
-## Coming Soon
-
-1. Easy branch management
