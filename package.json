@@ -1,6 +1,6 @@
 {
 	"name": "gitbuddy",
-	"version": "4.0.3",
+	"version": "4.4.4",
 	"description": "The best git friend you've ever had.",
 	"repository": {
 		"url": "https://github.com/JoshAaronLevy/gitbuddy",
@@ -23,7 +23,7 @@
 		"utility",
 		"helper",
 		"terminal",
-		"shell"
+		"branch management"
 	],
 	"license": "MIT",
 	"preferGlobal": true,
