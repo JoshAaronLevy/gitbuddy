@@ -20,7 +20,7 @@ program.description("Example: gitbuddy \"I fixed a bug\"")
 	.option("-p, --push", "Automatically push to remote repository")
 	.option("-b, --branch", "Manage branches")
 	.option("-c, --commit", "Commit prompts")
-	.version("5.0.3", "-v, --version")
+	.version("5.0.4", "-v, --version")
 	.action(async (message, command) => {
 		if (Object.keys(command._optionValues).length > 0) {
 			Object.keys(command._optionValues).map((key) => commandOptions.flags[key] = true);
