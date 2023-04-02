@@ -1,10 +1,9 @@
-#!/usr/bin/env node
-const program = require("commander");
-const main = require("../lib/main.js");
-const branch = require("../lib/branch.js");
+import { Command } from "commander";
+const program = new Command();
+import main from "../lib/main.js";
+import branch from "../lib/branch.js";
 
-program
-	.description("Example: gitbuddy \"I fixed a bug\"")
+program.description("Example: gitbuddy \"I fixed a bug\"")
 	.option("[message]", "Commit message")
 	.option("-A, -a, --all", "Stage all files")
 	.option("-p, --push", "Automatically push to remote repository")
