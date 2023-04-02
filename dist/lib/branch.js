@@ -35,10 +35,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const nanospinner_1 = require("nanospinner");
+const colorette_1 = require("colorette");
 const commit_js_1 = __importDefault(require("./commit.js"));
 const enquirer_1 = __importDefault(require("enquirer"));
-const colorette_1 = require("colorette");
-let spinner = null;
 let allBranches = [];
 let validBranches = [];
 let invalidBranches = [];
@@ -163,27 +163,23 @@ const selectInitialCmd = () => __awaiter(void 0, void 0, void 0, function* () {
     })
         .catch((error) => {
         console.log(error);
-        // return branchCreateError(error);
     });
 });
 const checkGitStatus = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
     const shell = yield Promise.resolve().then(() => __importStar(require("shelljs")));
     const p = shell.exec("git status --porcelain", { silent: true }).stdout;
-    // const { execa } = await import("execa");
-    const { chalk } = yield Promise.resolve().then(() => __importStar(require("chalk")));
-    spinner = ora("Checking for code changes...").start();
-    // const p = await execa("git", ["status", "--porcelain"], {
-    // 	cwd: directory,
-    // 	all: true
-    // });
+    const spinner = (0, nanospinner_1.createSpinner)().start();
     if (p.length > 0) {
-        spinner.warn(chalk.yellow.bold("ALERT! ") +
-            chalk.white("You have uncommitted code changes"));
+        spinner.warn({
+            text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) +
+                (0, colorette_1.white)("You have uncommitted code changes")
+        });
         return codeChangeSelect();
     }
     else {
-        spinner.succeed(chalk.white("Current working directory is clean"));
+        spinner.success({
+            text: (0, colorette_1.white)("Current working directory is clean")
+        });
         return inputBranchName();
     }
 });
@@ -213,17 +209,12 @@ const runGitBuddyCore = () => __awaiter(void 0, void 0, void 0, function* () {
     return inputBranchName();
 });
 const runStashCommand = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
+    const spinner = (0, nanospinner_1.createSpinner)("Stashing code changes...").start();
     const shell = yield Promise.resolve().then(() => __importStar(require("shelljs")));
     shell.exec("git stash", { silent: true });
-    // const { execa } = await import("execa");
-    const { chalk } = yield Promise.resolve().then(() => __importStar(require("chalk")));
-    spinner = ora("Stashing code changes...").start();
-    // await execa("git", ["stash"], {
-    // 	cwd: directory,
-    // 	all: true
-    // });
-    spinner.succeed(chalk.white("Code changes stashed"));
+    spinner.success({
+        text: (0, colorette_1.white)("Code changes stashed")
+    });
     return inputBranchName();
 });
 const inputBranchName = () => {
@@ -243,33 +234,30 @@ const inputBranchName = () => {
     });
 };
 const validateNewBranchName = (input) => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
-    const { chalk } = yield Promise.resolve().then(() => __importStar(require("chalk")));
-    spinner = ora(`Validating branch name ${input}...`).start();
+    const spinner = (0, nanospinner_1.createSpinner)(`Validating branch name ${input}...`).start();
     if (invalidBranches.includes(input.toLowerCase())) {
         branchName = null;
         input = null;
-        spinner.fail(chalk.red.bold("ERROR! ") +
-            chalk.white(`Branch name ${input} already exists or invalid. Please enter a new branch name.`));
+        spinner.error({
+            text: (0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) +
+                (0, colorette_1.white)(`Branch name ${input} already exists or invalid. Please enter a new branch name.`)
+        });
     }
     else {
-        spinner.succeed("Branch name validated");
+        spinner.success({
+            text: "Branch name validated"
+        });
         return createBranch(input);
     }
 });
 const createBranch = (branchName) => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
+    const spinner = (0, nanospinner_1.createSpinner)(`Creating and switching to branch: ${branchName}...`).start();
     const shell = yield Promise.resolve().then(() => __importStar(require("shelljs")));
-    // const { execa } = await import("execa");
-    const { chalk } = yield Promise.resolve().then(() => __importStar(require("chalk")));
-    spinner = ora(`Creating and switching to branch: ${branchName}...`).start();
     try {
         shell.exec(`git checkout -b ${branchName}`, { silent: true });
-        // await execa("git", ["checkout", "-b", `${branchName}`], {
-        // 	cwd: directory,
-        // 	all: true,
-        // });
-        spinner.succeed("Branch created locally. Now working on " + chalk.green.bold(`${branchName}`));
+        spinner.success({
+            text: "Branch created locally. Now working on " + (0, colorette_1.green)((0, colorette_1.bold)(`${branchName}`))
+        });
         return gitPushCheck(branchName);
     }
     catch (error) {
@@ -292,39 +280,37 @@ const gitPushCheck = (branchName) => {
     });
 };
 const gitPushUpstream = (branchName) => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
+    const spinner = (0, nanospinner_1.createSpinner)(`Setting ${branchName} upstream and pushing...`).start();
     const shell = yield Promise.resolve().then(() => __importStar(require("shelljs")));
-    // const { execa } = await import("execa");
-    const { chalk } = yield Promise.resolve().then(() => __importStar(require("chalk")));
-    spinner = ora(`Setting ${branchName} upstream and pushing...`).start();
     try {
         shell.exec(`git push -u origin ${branchName}`, { silent: true });
-        // await execa("git", ["push", "-u", "origin", `${branchName}`], {
-        // 	cwd: directory,
-        // 	all: true,
-        // });
-        return spinner.succeed(chalk.white("Branch created in remote repository\n") +
-            chalk.green.bold("Summary:\n") +
-            chalk.white.bold("Branch Name: ") + chalk.white(`${currentBranch}\n`) +
-            chalk.white.bold("Git Remote URL: ") + chalk.white(`${remoteUrl}`));
+        return spinner.success({
+            text: (0, colorette_1.white)("Branch created in remote repository\n") +
+                (0, colorette_1.green)((0, colorette_1.bold)("Summary:\n")) +
+                (0, colorette_1.white)((0, colorette_1.bold)("Branch Name: ")) + (0, colorette_1.white)(`${currentBranch}\n`) +
+                (0, colorette_1.white)((0, colorette_1.bold)("Git Remote URL: ")) + (0, colorette_1.white)(`${remoteUrl}`)
+        });
     }
     catch (p_1) {
-        spinner.fail(chalk.red.bold("ERROR!") +
-            chalk.white(" Could not push to remote repository via --set-upstream. See details below:\n" +
-                `${p_1}`));
+        return spinner.error({
+            text: colorette_1.red.bold("ERROR!") +
+                (0, colorette_1.white)(" Could not push to remote repository via --set-upstream. See details below:\n" +
+                    `${p_1}`)
+        });
     }
 });
 const selectBranches = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
+    const spinner = (0, nanospinner_1.createSpinner)("Checking selected branches...").start();
     return branchSelect
         .run()
         .then((answer) => {
-        spinner = ora("Checking selected branches...").start();
         if (answer.length < 1) {
             return noBranchesSelected();
         }
         else {
-            spinner.warn((0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)(`Are you sure you want to delete the following branch(es)?\n${answer}`));
+            spinner.warn({
+                text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)(`Are you sure you want to delete the following branch(es)?\n${answer}`)
+            });
             return confirmBranchDelete(answer);
         }
     })
@@ -349,97 +335,71 @@ const confirmBranchDelete = (selectedBranches) => {
     });
 };
 const deleteSelectedBranches = (deleteBranchList) => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
-    spinner = ora("Deleting branch(es)...").start();
+    const spinner = (0, nanospinner_1.createSpinner)("Deleting branch(es)...").start();
     try {
         for (const branch of deleteBranchList) {
             yield deleteBranch(branch);
         }
-        spinner.succeed("Branch(es) successfully deleted");
+        spinner.success({
+            text: "Branch(es) successfully deleted"
+        });
     }
     catch (error) {
-        spinner.fail((0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) +
-            (0, colorette_1.white)(`Could not delete ${deleteBranchList}. Error: ${error}`));
+        spinner.error({
+            text: (0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) + (0, colorette_1.white)(`Could not delete ${deleteBranchList}. Error: ${error}`)
+        });
     }
 });
 const deleteBranch = (branchName) => __awaiter(void 0, void 0, void 0, function* () {
-    const { ora } = yield Promise.resolve().then(() => __importStar(require("ora")));
+    const spinner = (0, nanospinner_1.createSpinner)(`Deleting branch: ${branchName}...`).start();
     const shell = yield Promise.resolve().then(() => __importStar(require("shelljs")));
-    // const { execa } = await import("execa");
-    spinner = ora(`Deleting branch: ${branchName}...`).start();
     try {
         shell.exec(`git branch -D ${branchName}`, { silent: true });
-        // await execa("git", ["branch", "-D", `${branchName}`]);
-        spinner.succeed(`Branch ${branchName} deleted`);
+        spinner.success({
+            text: `Branch ${branchName} deleted`
+        });
     }
     catch (error) {
-        spinner.fail((0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) +
-            (0, colorette_1.white)(`Could not delete ${branchName}. Error: ${error}`));
+        return spinner.error({
+            text: (0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) + (0, colorette_1.white)(`Could not delete ${branchName}. Error: ${error}`)
+        });
     }
 });
 const branchCreateError = (error) => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) +
-        (0, colorette_1.white)(`Could not create branch: ${error}`));
-    return error;
-    // spinner = ora().start();
-    // return spinner.fail(
-    // 	chalk.red.bold("ERROR! ") +
-    // 	chalk.white(
-    // 		`Could not create branch: ${error}`
-    // 	)
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.error({
+        text: (0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) + (0, colorette_1.white)(`Could not create branch: ${error}`)
+    });
 });
 const branchDeleteError = (error) => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) +
-        (0, colorette_1.white)(`Could not execute branch delete command: ${error}`));
-    return error;
-    // spinner = ora().start();
-    // return spinner.fail(
-    // 	chalk.red.bold("ERROR! ") +
-    // 	chalk.white(
-    // 		`Could not execute branch delete command: ${error}`
-    // 	)
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.error({
+        text: (0, colorette_1.red)((0, colorette_1.bold)("ERROR! ")) + (0, colorette_1.white)(`Could not execute branch delete command: ${error}`)
+    });
 });
 const branchCreateAborted = () => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("Branch creation aborted"));
-    return error;
-    // spinner = ora().start();
-    // return spinner.warn(
-    // 	chalk.yellow.bold("ALERT! ") +
-    // 	chalk.white(
-    // 		"Branch creation aborted"
-    // 	)
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.warn({
+        text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("Branch creation aborted")
+    });
 });
 const noBranchesSelected = () => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("No branches selected to delete"));
-    return error;
-    // spinner = ora().start();
-    // return spinner.warn(
-    // 	chalk.yellow.bold("ALERT! ") + chalk.white("No branches selected to delete")
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.warn({
+        text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("No branches selected to delete")
+    });
 });
 const noValidBranches = () => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.yellow)((0, colorette_1.bold)("\nALERT! ")) + (0, colorette_1.white)("No valid branches found to delete\n"));
-    // spinner = ora().start();
-    // return spinner.warn(
-    // 	chalk.yellow.bold("ALERT! ") + chalk.white("No valid branches found to delete\n")
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.warn({
+        text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("No valid branches found to delete")
+    });
 });
 const branchDeleteAborted = () => __awaiter(void 0, void 0, void 0, function* () {
-    // const { ora } = await import("ora");
-    console.log((0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("Branch delete aborted"));
-    return error;
-    // spinner = ora().start();
-    // return spinner.warn(
-    // 	chalk.yellow.bold("ALERT! ") + chalk.white("Branch delete aborted")
-    // );
+    const spinner = (0, nanospinner_1.createSpinner)().start();
+    return spinner.warn({
+        text: (0, colorette_1.yellow)((0, colorette_1.bold)("ALERT! ")) + (0, colorette_1.white)("Branch delete aborted")
+    });
 });
 /* --------------------
 GitBuddy Branch prompts
