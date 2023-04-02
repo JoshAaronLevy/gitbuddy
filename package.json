@@ -7,10 +7,11 @@
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./bin/index.mjs",
-	"type": "module",
+	"main": "./dist/bin/index.js",
 	"scripts": {
-		"start": "node bin/index.mjs",
+		"start": "node ./dist/bin/index.js",
+		"build": "rm -rf dist && tsc",
+		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
 	},
 	"author": {
@@ -29,18 +30,22 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./bin/index.mjs"
+		"gitbuddy": "./dist/bin/index.js"
 	},
 	"dependencies": {
 		"chalk": "^5.2.0",
+		"colorette": "^2.0.19",
 		"commander": "^10.0.0",
 		"enquirer": "^2.3.6",
 		"execa": "^7.1.1",
 		"functional-promises": "^2.0.3",
-		"ora": "^6.3.0"
+		"ora": "^6.3.0",
+		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
+		"@types/shelljs": "^0.8.11",
 		"debug": "^4.1.1",
-		"eslint": "^8.35.0"
+		"eslint": "^8.35.0",
+		"typescript": "^5.0.3"
 	}
 }
