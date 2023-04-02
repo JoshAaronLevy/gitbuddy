@@ -1,8 +1,9 @@
 {
 	"env": {
-		"commonjs": true,
+		"commonjs": false,
 		"es2021": true,
-		"node": true
+		"node": true,
+		"sourcetype": "module"
 	},
 	"extends": "eslint:recommended",
 	"overrides": [],
