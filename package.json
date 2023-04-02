@@ -7,10 +7,10 @@
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./bin/index.js",
+	"main": "./bin/index.mjs",
 	"type": "module",
 	"scripts": {
-		"start": "node bin/index.js",
+		"start": "node bin/index.mjs",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
 	},
 	"author": {
@@ -29,7 +29,7 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./bin/index.js"
+		"gitbuddy": "./bin/index.mjs"
 	},
 	"dependencies": {
 		"chalk": "^5.2.0",
