@@ -252,17 +252,16 @@ const gitPushStep = async (message) => {
 		const settings = { async: true, silent: true };
 		return new Promise((resolve, reject) => {
 			shell.exec(command, settings, (code) => {
-				spinner.stop();
 				return handleExecResponse(code, command, settings, resolve, reject);
 			});
 		}).then(() => {
-			return spinner.success({
+			spinner.success({
 				text: white(bold("Code changes pushed\n")) +
 					white(bold("View Repo: ")) + white(underline(`${remoteUrl}\n`)) +
 					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
 			});
 		}).catch((error) => {
-			return spinner.error({
+			spinner.error({
 				text: red(bold("ERROR! ") + white(`${error}`))
 			});
 		});
