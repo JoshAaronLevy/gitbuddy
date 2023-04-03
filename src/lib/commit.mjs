@@ -323,6 +323,7 @@ const handleExecResponse = (code, command, settings, resolve, reject) => {
 	if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
+		console.log("reject: ", reject);
 		reject({ code, command, settings, resolve, reject });
 	}
 };
