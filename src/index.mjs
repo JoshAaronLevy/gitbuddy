@@ -1,9 +1,9 @@
 import { Command } from "commander";
 const program = new Command();
 import { isColorSupported } from "colorette";
-import main from "../lib/main.js";
-import branch from "../lib/branch.js";
-import commit from "../lib/commit.js";
+import main from "./lib/main.mjs";
+import branch from "./lib/branch.mjs";
+import commit from "./lib/commit.mjs";
 
 let commandOptions = {
 	colorSupported: isColorSupported,
@@ -22,7 +22,7 @@ program.description("Example: gitbuddy \"I fixed a bug\"")
 	.option("-p, --push", "Automatically push to remote repository")
 	.option("-b, --branch", "Manage branches")
 	.option("-c, --commit", "Commit prompts")
-	.version("5.0.6", "-v, --version")
+	.version("5.0.7", "-v, --version")
 	.action(async (message, command) => {
 		try {
 			if (Object.keys(command._optionValues).length > 0) {

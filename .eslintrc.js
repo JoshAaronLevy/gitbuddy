@@ -1,14 +1,14 @@
-{
+module.exports = {
 	"env": {
-		"commonjs": false,
 		"es2021": true,
-		"node": true,
-		"sourcetype": "module"
+		"node": true
 	},
 	"extends": "eslint:recommended",
-	"overrides": [],
+	"overrides": [
+	],
 	"parserOptions": {
-		"ecmaVersion": "latest"
+		"ecmaVersion": "latest",
+		"sourceType": "module"
 	},
 	"rules": {
 		"indent": [
@@ -28,4 +28,4 @@
 			"always"
 		]
 	}
-}
+};

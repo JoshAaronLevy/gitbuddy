@@ -1,7 +1,7 @@
 import { red, white, yellow, bold } from "colorette";
-import commit from "./commit.js";
-import branch from "./branch.js";
 import enquirer from "enquirer";
+import commit from "./commit.mjs";
+import branch from "./branch.mjs";
 
 export default (commandOptions) => {
 	return selectOperation(commandOptions);
@@ -26,11 +26,11 @@ const selectOperation = (commandOptions) => {
 
 const commandError = async (error) => {
 	return red(bold("ERROR! ")) + white(`"Could not execute commandOptions:"\n ${error}`);
-}
+};
 
 const commandAlert = async (message) => {
 	return yellow(bold("Alert! ")) + white(`${message}`);
-}
+};
 
 /* ------------------
 GitBuddy entry prompt

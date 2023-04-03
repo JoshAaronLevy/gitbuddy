@@ -1,6 +1,6 @@
-import { createSpinner } from 'nanospinner';
+import { createSpinner } from "nanospinner";
 import { red, yellow, green, white, bold } from "colorette";
-// import commit from "./commit.js";
+// import commit from "./commit.mjs";
 import enquirer from "enquirer";
 let allBranches = [];
 let validBranches = [];
@@ -21,10 +21,10 @@ let defaultInvalidBranches = [
 let currentBranch = "";
 let branchName = "";
 let remoteUrl = "";
-let commandArgs;
+// let commandArgs;
 
 export default async (commandOptions) => {
-	commandArgs = commandOptions;
+	// commandArgs = commandOptions;
 	try {
 		remoteUrl = await getOriginUrl();
 		currentBranch = await identifyCurrentBranch();
@@ -33,6 +33,7 @@ export default async (commandOptions) => {
 		invalidBranches = await identifyInvalidBranches();
 		return await selectInitialCmd();
 	} catch (error) {
+		console.log(commandOptions);
 		console.error(error);
 	}
 	process.exit(0);
@@ -357,49 +358,49 @@ const deleteBranch = async (branchName) => {
 			text: red(bold("ERROR! ")) + white(`Could not delete ${branchName}. Error: ${error}`)
 		});
 	}
-}
+};
 
 const branchCreateError = async (error) => {
 	const spinner = createSpinner().start();
 	return spinner.error({
 		text: red(bold("ERROR! ")) + white(`Could not create branch: ${error}`)
-	})
-}
+	});
+};
 
 const branchDeleteError = async (error) => {
 	const spinner = createSpinner().start();
 	return spinner.error({
 		text: red(bold("ERROR! ")) + white(`Could not execute branch delete command: ${error}`)
-	})
-}
+	});
+};
 
 const branchCreateAborted = async () => {
 	const spinner = createSpinner().start();
 	return spinner.warn({
 		text: yellow(bold("ALERT! ")) + white("Branch creation aborted")
-	})
-}
+	});
+};
 
 const noBranchesSelected = async () => {
 	const spinner = createSpinner().start();
 	return spinner.warn({
 		text: yellow(bold("ALERT! ")) + white("No branches selected to delete")
 	});
-}
+};
 
 const noValidBranches = async () => {
 	const spinner = createSpinner().start();
 	return spinner.warn({
 		text: yellow(bold("ALERT! ")) + white("No valid branches found to delete")
-	})
-}
+	});
+};
 
 const branchDeleteAborted = async () => {
 	const spinner = createSpinner().start();
 	return spinner.warn({
 		text: yellow(bold("ALERT! ")) + white("Branch delete aborted")
-	})
-}
+	});
+};
 
 /* --------------------
 GitBuddy Branch prompts
