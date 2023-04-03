@@ -1,7 +1,8 @@
-import { createSpinner } from "nanospinner";
-import { red, yellow, green, white, bold } from "colorette";
-import commit from "./commit.mjs";
 import enquirer from "enquirer";
+import shell from "shelljs";
+import { createSpinner } from "nanospinner";
+import { red, yellow, green, white, bold, underline } from "colorette";
+import commit from "./commit.mjs";
 let allBranches = [];
 let validBranches = [];
 let invalidBranches = [];
@@ -19,6 +20,7 @@ let defaultInvalidBranches = [
 	""
 ];
 let currentBranch = "";
+let branchUrl = "";
 let branchName = "";
 let remoteUrl = "";
 let commandArgs;
@@ -28,6 +30,7 @@ export default async (commandOptions) => {
 	try {
 		remoteUrl = await getOriginUrl();
 		currentBranch = await identifyCurrentBranch();
+		branchUrl = `${remoteUrl}/tree/${currentBranch}`;
 		allBranches = await identifyAllBranches();
 		validBranches = await identifyValidBranches();
 		invalidBranches = await identifyInvalidBranches();
@@ -36,12 +39,10 @@ export default async (commandOptions) => {
 		console.log(commandArgs);
 		console.error(error);
 	}
-	process.exit(0);
 };
 
 const getOriginUrl = async () => {
 	try {
-		const shell = await import("shelljs");
 		const p = shell.exec("git remote -v", { silent: true }).stdout;
 		const remoteUrlList = [p][0].split("\n").filter(url => url.includes("origin"));
 		return identifyOriginUrl(remoteUrlList[0]);
@@ -64,7 +65,6 @@ const identifyOriginUrl = (rawRemoteUrl) => {
 
 const identifyCurrentBranch = async () => {
 	try {
-		const shell = await import("shelljs");
 		const branchResult = shell.exec("git rev-parse --abbrev-ref HEAD", { silent: true }).stdout;
 		return branchResult.trim();
 	} catch (error) {
@@ -73,43 +73,54 @@ const identifyCurrentBranch = async () => {
 };
 
 const identifyAllBranches = async () => {
-	const shell = await import("shelljs");
-	const p = shell.exec("git branch -l", { silent: true });
-	const tempBranchList = p.stdout.split("\n");
-	return tempBranchList.map(branch => branch.trim());
+	try {
+		const p = shell.exec("git branch -l", { silent: true });
+		const tempBranchList = p.stdout.split("\n");
+		return tempBranchList.map(branch => branch.trim());
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const identifyValidBranches = async () => {
-	allBranches.forEach(branch => {
-		if (
-			!branch.includes("*") &&
-			branch !== "master" &&
-			branch !== "main" &&
-			branch !== currentBranch &&
-			branch !== "dev" &&
-			branch !== "develop" &&
-			branch !== "development" &&
-			branch !== "qa" &&
-			branch !== "stage" &&
-			branch !== "staging" &&
-			branch !== "production" &&
-			branch !== "prod" &&
-			branch !== ""
-		) {
-			validBranches.push(branch);
-		}
-	});
-	return validBranches;
+	try {
+		allBranches.forEach(branch => {
+			if (
+				!branch.includes("*") &&
+				branch !== "master" &&
+				branch !== "main" &&
+				branch !== currentBranch &&
+				branch !== "dev" &&
+				branch !== "develop" &&
+				branch !== "development" &&
+				branch !== "qa" &&
+				branch !== "stage" &&
+				branch !== "staging" &&
+				branch !== "production" &&
+				branch !== "prod" &&
+				branch !== ""
+			) {
+				validBranches.push(branch);
+			}
+		});
+		return validBranches;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const identifyInvalidBranches = async () => {
-	allBranches.forEach(branch => {
-		if (branch.includes("*")) {
-			invalidBranches.push(branch);
-		}
-	});
-	invalidBranches.push(currentBranch, ...defaultInvalidBranches);
-	return invalidBranches;
+	try {
+		allBranches.forEach(branch => {
+			if (branch.includes("*")) {
+				invalidBranches.push(branch);
+			}
+		});
+		invalidBranches.push(currentBranch, ...defaultInvalidBranches);
+		return invalidBranches;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const selectInitialCmd = async () => {
@@ -132,20 +143,23 @@ const selectInitialCmd = async () => {
 };
 
 const checkGitStatus = async () => {
-	const shell = await import("shelljs");
-	const p = shell.exec("git status --porcelain", { silent: true }).stdout;
-	const spinner = createSpinner().start();
-	if (p.length > 0) {
-		spinner.warn({
-			text: yellow(bold("ALERT! ")) +
-				white("You have uncommitted code changes")
-		});
-		return codeChangeSelect();
-	} else {
-		spinner.success({
-			text: white("Current working directory is clean")
-		});
-		return inputBranchName();
+	try {
+		const p = shell.exec("git status --porcelain", { silent: true }).stdout;
+		const spinner = createSpinner().start();
+		if (p.length > 0) {
+			spinner.warn({
+				text: yellow(bold("ALERT! ")) +
+					white("You have uncommitted code changes")
+			});
+			return codeChangeSelect();
+		} else {
+			spinner.success({
+				text: white("Current working directory is clean")
+			});
+			return inputBranchName();
+		}
+	} catch (error) {
+		console.log(error);
 	}
 };
 
@@ -172,19 +186,25 @@ const codeChangeSelect = () => {
 };
 
 const runGitBuddyCore = async () => {
-	console.log("commandArgs: ", commandArgs);
-	await commit(commandArgs);
-	return inputBranchName();
+	try {
+		await commit(commandArgs);
+		return inputBranchName();
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const runStashCommand = async () => {
-	const spinner = createSpinner("Stashing code changes...").start();
-	const shell = await import("shelljs");
-	shell.exec("git stash", { silent: true });
-	spinner.success({
-		text: white("Code changes stashed")
-	});
-	return inputBranchName();
+	try {
+		const spinner = createSpinner("Stashing code changes...").start();
+		shell.exec("git stash", { silent: true });
+		spinner.success({
+			text: white("Code changes stashed")
+		});
+		return inputBranchName();
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const inputBranchName = () => {
@@ -204,29 +224,32 @@ const inputBranchName = () => {
 };
 
 const validateNewBranchName = async (input) => {
-	const spinner = createSpinner(`Validating branch name ${input}...`).start();
-	if (invalidBranches.includes(input.toLowerCase())) {
-		branchName = null;
-		input = null;
-		spinner.error({
-			text: red(bold("ERROR! ")) +
-				white(`Branch name ${input} already exists or invalid. Please enter a new branch name.`)
-		});
-	} else {
-		spinner.success({
-			text: "Branch name validated"
-		});
-		return createBranch(input);
+	try {
+		const spinner = createSpinner(`Validating branch name ${input}...`).start();
+		if (invalidBranches.includes(input.toLowerCase())) {
+			branchName = null;
+			input = null;
+			spinner.error({
+				text: red(bold("ERROR! ")) +
+					white(bold(`Branch name ${input} already exists or invalid. Please enter a new branch name.`))
+			});
+		} else {
+			spinner.success({
+				text: white(bold("Branch name validated"))
+			});
+			return createBranch(input);
+		}
+	} catch (error) {
+		console.log(error);
 	}
 };
 
 const createBranch = async (branchName) => {
-	const spinner = createSpinner(`Creating and switching to branch: ${branchName}...`).start();
-	const shell = await import("shelljs");
 	try {
+		const spinner = createSpinner(`Creating and switching to branch: ${branchName}...`).start();
 		shell.exec(`git checkout -b ${branchName}`, { silent: true });
 		spinner.success({
-			text: "Branch created locally. Now working on " + green(bold(`${branchName}`))
+			text: white(bold("Branch created locally. Now working on ")) + green(bold(`${branchName}`))
 		});
 		return gitPushCheck(branchName);
 	} catch (error) {
@@ -251,23 +274,40 @@ const gitPushCheck = (branchName) => {
 
 const gitPushUpstream = async (branchName) => {
 	const spinner = createSpinner(`Setting ${branchName} upstream and pushing...`).start();
-	const shell = await import("shelljs");
 	try {
-		shell.exec(`git push -u origin ${branchName}`, { silent: true });
-		return spinner.success({
-			text: white("Branch created in remote repository\n") +
-				green(bold("Summary:\n")) +
-				white(bold("Branch Name: ")) + white(`${currentBranch}\n`) +
-				white(bold("Git Remote URL: ")) + white(`${remoteUrl}`)
+		const command = `git push --set-upstream origin ${branchName}`;
+		const settings = { async: true, silent: true };
+		return new Promise((resolve, reject) => {
+			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
+		}).then(() => {
+			return spinner.success({
+				text: white(bold("Code changes pushed\n")) +
+					white(bold("View Repo: ")) + white(underline(`${remoteUrl}\n`)) +
+					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
+			});
+		}).catch((error) => {
+			return spinner.error({
+				text: red(bold("ERROR! ") + white(`${error}`))
+			});
 		});
 	} catch (p_1) {
 		return spinner.error({
-			text: red.bold("ERROR!") +
+			text: red(bold("ERROR!")) +
 				white(
 					" Could not push to remote repository via --set-upstream. See details below:\n" +
 					`${p_1}`
 				)
 		});
+	}
+};
+
+const handleExecResponse = async (code, command, settings, resolve, reject) => {
+	if (code === 128) {
+		return await gitPushUpstream(currentBranch);
+	} else if (code === 0) {
+		resolve({ code, command, settings, resolve, reject });
+	} else {
+		reject({ code, command, settings, resolve, reject });
 	}
 };
 
@@ -348,7 +388,6 @@ const deleteSelectedBranches = async (deleteBranchList) => {
 
 const deleteBranch = async (branchName) => {
 	const spinner = createSpinner(`Deleting branch: ${branchName}...`).start();
-	const shell = await import("shelljs");
 	try {
 		shell.exec(`git branch -D ${branchName}`, { silent: true });
 		spinner.success({
@@ -362,45 +401,69 @@ const deleteBranch = async (branchName) => {
 };
 
 const branchCreateError = async (error) => {
-	const spinner = createSpinner().start();
-	return spinner.error({
-		text: red(bold("ERROR! ")) + white(`Could not create branch: ${error}`)
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.error({
+			text: red(bold("ERROR! ")) + white(`Could not create branch: ${error}`)
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const branchDeleteError = async (error) => {
-	const spinner = createSpinner().start();
-	return spinner.error({
-		text: red(bold("ERROR! ")) + white(`Could not execute branch delete command: ${error}`)
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.error({
+			text: red(bold("ERROR! ")) + white(`Could not execute branch delete command: ${error}`)
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const branchCreateAborted = async () => {
-	const spinner = createSpinner().start();
-	return spinner.warn({
-		text: yellow(bold("ALERT! ")) + white("Branch creation aborted")
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.warn({
+			text: yellow(bold("ALERT! ")) + white("Branch creation aborted")
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const noBranchesSelected = async () => {
-	const spinner = createSpinner().start();
-	return spinner.warn({
-		text: yellow(bold("ALERT! ")) + white("No branches selected to delete")
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.warn({
+			text: yellow(bold("ALERT! ")) + white("No branches selected to delete")
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const noValidBranches = async () => {
-	const spinner = createSpinner().start();
-	return spinner.warn({
-		text: yellow(bold("ALERT! ")) + white("No valid branches found to delete")
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.warn({
+			text: yellow(bold("ALERT! ")) + white("No valid branches found to delete")
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 const branchDeleteAborted = async () => {
-	const spinner = createSpinner().start();
-	return spinner.warn({
-		text: yellow(bold("ALERT! ")) + white("Branch delete aborted")
-	});
+	try {
+		const spinner = createSpinner().start();
+		return spinner.warn({
+			text: yellow(bold("ALERT! ")) + white("Branch delete aborted")
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 /* --------------------
@@ -421,7 +484,7 @@ const gitStatusSelect = new enquirer.Select({
 	name: "gitStatusSelect",
 	message: "What would you like to do?",
 	choices: [
-		// "Add, commit, and push changes to current branch first",
+		"Add, commit, and push changes to current branch first",
 		"Continue without staging changes",
 		"Stash changes",
 		"Cancel"

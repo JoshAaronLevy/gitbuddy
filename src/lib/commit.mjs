@@ -26,7 +26,6 @@ export default async (commandOptions) => {
 		currentBranch = await identifyCurrentBranch();
 		branchUrl = `${remoteUrl}/tree/${currentBranch}`;
 		await checkStatus();
-		process.exit(0);
 	} catch (error) {
 		console.log(error);
 		return error;
@@ -251,15 +250,17 @@ const gitPushStep = async (message) => {
 		const command = "git push";
 		const settings = { async: true, silent: true };
 		return new Promise((resolve, reject) => {
-			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
+			shell.exec(command, settings, (code) => {
+				return handleExecResponse(code, command, settings, resolve, reject);
+			});
 		}).then(() => {
-			return spinner.success({
+			spinner.success({
 				text: white(bold("Code changes pushed\n")) +
 					white(bold("View Repo: ")) + white(underline(`${remoteUrl}\n`)) +
 					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
 			});
 		}).catch((error) => {
-			return spinner.error({
+			spinner.error({
 				text: red(bold("ERROR! ") + white(`${error}`))
 			});
 		});
@@ -313,8 +314,10 @@ const gitPushUpstream = async (currentBranch) => {
 	}
 };
 
-const handleExecResponse = (code, command, settings, resolve, reject) => {
-	if (code === 0) {
+const handleExecResponse = async (code, command, settings, resolve, reject) => {
+	if (code === 128) {
+		return await gitPushUpstream(currentBranch);
+	} else if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
 		reject({ code, command, settings, resolve, reject });

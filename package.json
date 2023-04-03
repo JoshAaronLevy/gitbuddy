@@ -7,10 +7,10 @@
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./src/index.mjs",
+	"main": "./dist/index.mjs",
 	"scripts": {
 		"lint": "eslint ./src",
-		"start": "node ./src/index.mjs",
+		"start": "node ./dist/index.mjs",
 		"build": "rm -rf dist && tsc",
 		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
@@ -31,7 +31,7 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./src/index.mjs"
+		"gitbuddy": "./dist/index.mjs"
 	},
 	"dependencies": {
 		"colorette": "^2.0.19",
