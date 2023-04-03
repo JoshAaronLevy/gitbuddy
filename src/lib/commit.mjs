@@ -250,9 +250,7 @@ const gitPushStep = async (message) => {
 	try {
 		const command = "git push";
 		const settings = { async: true, silent: false };
-		shell.echo("shell.echo");
 		return new Promise((resolve, reject) => {
-			console.log("Pushing inside promise...");
 			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
 		}).then(() => {
 			return spinner.success({
@@ -261,7 +259,6 @@ const gitPushStep = async (message) => {
 					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
 			});
 		}).catch((error) => {
-			console.log("catch block error", error);
 			return spinner.error({
 				text: red(bold("ERROR! ") + white(`${error}`))
 			});
@@ -292,9 +289,7 @@ const gitPushUpstream = async (currentBranch) => {
 	try {
 		const command = `git push --set-upstream origin ${currentBranch}`;
 		const settings = { async: true, silent: true };
-		console.log("Setting upstream...");
 		return new Promise((resolve, reject) => {
-			console.log("Setting upstream inside Promise...");
 			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
 		}).then(() => {
 			return spinner.success({
@@ -318,9 +313,10 @@ const gitPushUpstream = async (currentBranch) => {
 	}
 };
 
-const handleExecResponse = (code, command, settings, resolve, reject) => {
-	console.log("code: ", code);
-	if (code === 0) {
+const handleExecResponse = async (code, command, settings, resolve, reject) => {
+	if (code === 128) {
+		return await gitPushUpstream(currentBranch);
+	} else if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
 		reject({ code, command, settings, resolve, reject });
