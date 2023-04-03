@@ -27,5 +27,9 @@ module.exports = {
 			"error",
 			"always"
 		]
-	}
+	},
+	"ignorePatterns": [
+		"node_modules/",
+		"dist/"
+	]
 };
