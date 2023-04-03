@@ -253,7 +253,7 @@ const gitPushStep = async (message) => {
 		return new Promise((resolve, reject) => {
 			shell.exec(command, settings, (code) => {
 				spinner.stop();
-				return handleExecResponse(code, command, settings, spinner, resolve, reject);
+				return handleExecResponse(code, command, settings, resolve, reject);
 			});
 		}).then(() => {
 			return spinner.success({
@@ -316,9 +316,8 @@ const gitPushUpstream = async (currentBranch) => {
 	}
 };
 
-const handleExecResponse = async (code, command, settings, spinner, resolve, reject) => {
+const handleExecResponse = async (code, command, settings, resolve, reject) => {
 	if (code === 128) {
-		spinner.stop();
 		return await gitPushUpstream(currentBranch);
 	} else if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
