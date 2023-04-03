@@ -249,7 +249,7 @@ const gitPushStep = async (message) => {
 	const spinner = createSpinner(`Pushing "${message}" to remote repository...`).start();
 	try {
 		const command = "git push";
-		const settings = { async: true, silent: true };
+		const settings = { async: true, silent: false };
 		shell.echo("shell.echo");
 		return new Promise((resolve, reject) => {
 			console.log("Pushing inside promise...");
@@ -322,7 +322,6 @@ const handleExecResponse = (code, command, settings, resolve, reject) => {
 	if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
-		console.log("reject: ", reject);
 		reject({ code, command, settings, resolve, reject });
 	}
 };
