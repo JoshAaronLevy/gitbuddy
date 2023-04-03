@@ -261,6 +261,7 @@ const gitPushStep = async (message) => {
 					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
 			});
 		}).catch((error) => {
+			console.log(error);
 			return spinner.error({
 				text: red(bold("ERROR! ") + white(`${error}`))
 			});
