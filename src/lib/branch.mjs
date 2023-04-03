@@ -1,6 +1,6 @@
 import { createSpinner } from "nanospinner";
 import { red, yellow, green, white, bold } from "colorette";
-// import commit from "./commit.mjs";
+import commit from "./commit.mjs";
 import enquirer from "enquirer";
 let allBranches = [];
 let validBranches = [];
@@ -21,10 +21,10 @@ let defaultInvalidBranches = [
 let currentBranch = "";
 let branchName = "";
 let remoteUrl = "";
-// let commandArgs;
+let commandArgs;
 
 export default async (commandOptions) => {
-	// commandArgs = commandOptions;
+	commandArgs = commandOptions;
 	try {
 		remoteUrl = await getOriginUrl();
 		currentBranch = await identifyCurrentBranch();
@@ -33,7 +33,7 @@ export default async (commandOptions) => {
 		invalidBranches = await identifyInvalidBranches();
 		return await selectInitialCmd();
 	} catch (error) {
-		console.log(commandOptions);
+		console.log(commandArgs);
 		console.error(error);
 	}
 	process.exit(0);
@@ -153,9 +153,9 @@ const codeChangeSelect = () => {
 	return gitStatusSelect
 		.run()
 		.then((answer) => {
-			// if (answer === "Add, commit, and push changes to current branch first") {
-			// 	return runGitBuddyCore(commandArgs);
-			// }
+			if (answer === "Add, commit, and push changes to current branch first") {
+				return runGitBuddyCore();
+			}
 			if (answer === "Continue without staging changes") {
 				return inputBranchName();
 			}
@@ -171,10 +171,11 @@ const codeChangeSelect = () => {
 		});
 };
 
-// const runGitBuddyCore = async () => {
-// 	await commit(commandArgs);
-// 	return inputBranchName();
-// };
+const runGitBuddyCore = async () => {
+	console.log("commandArgs: ", commandArgs);
+	await commit(commandArgs);
+	return inputBranchName();
+};
 
 const runStashCommand = async () => {
 	const spinner = createSpinner("Stashing code changes...").start();

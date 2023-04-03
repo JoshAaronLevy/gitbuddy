@@ -36,13 +36,6 @@ export default async (commandOptions) => {
 const getOriginUrl = async () => {
 	try {
 		const p = shell.exec("git remote -v", { silent: true }).stdout;
-		// const command = "git remote -v";
-		// const settings = { silent: true };
-		// const p = new Promise((resolve, reject) => {
-		// 	shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
-		// }).catch((error) => {
-		// 	console.log(error);
-		// });
 		const remoteUrlList = [p][0].split("\n").filter(url => url.includes("origin"));
 		return identifyOriginUrl(remoteUrlList[0]);
 	} catch (error) {
@@ -73,7 +66,6 @@ const identifyCurrentBranch = async () => {
 const checkStatus = async () => {
 	try {
 		const spinner = createSpinner("Gathering file changes...").start();
-		// const shell = await import("shelljs");
 		let untrackedFileList = [];
 		let fileList = [];
 		let untrackedIndex = 0;
@@ -166,7 +158,6 @@ const fileSelection = async () => {
 const stagingCommand = async (answer) => {
 	const spinner = createSpinner("Staging files...").start();
 	try {
-		// const shell = await import("shelljs");
 		for (let i = 0; i < answer.length; i++) {
 			answer[i] = answer[i].slice(0, -21);
 		}
@@ -177,16 +168,13 @@ const stagingCommand = async (answer) => {
 		} else {
 			successMsg = `${fileCount} files staged`;
 		}
-		console.log("answer: ", answer);
 		const shellAnswer = answer.join(" ");
-		console.log("shellAnswer: ", shellAnswer);
 		shell.exec(`git add ${shellAnswer}`, { silent: true });
 		spinner.success({
 			text: white(bold(`${successMsg}`))
 		});
 		return commitMessageInput();
 	} catch (error) {
-		console.log(error);
 		return spinner.error({
 			text: red(bold("ERROR! ") + white(`${error}`))
 		});
@@ -217,7 +205,6 @@ const commitMessageInput = () => {
 const commitCommand = async (message) => {
 	const spinner = createSpinner("Committing files...").start();
 	try {
-		// const shell = await import("shelljs");
 		let commitMessage = "";
 		if (message.includes("'") || message.includes("\"")) {
 			commitMessage = `${message.replace(/'/g, "\"\"")}`;
@@ -261,7 +248,6 @@ const pushConfirm = (message) => {
 const gitPushStep = async (message) => {
 	const spinner = createSpinner(`Pushing "${message}" to remote repository...`).start();
 	try {
-		// const shell = await import("shelljs");
 		const command = "git push";
 		const settings = { async: true, silent: true };
 		return new Promise((resolve, reject) => {
@@ -301,7 +287,6 @@ const gitPushStep = async (message) => {
 const gitPushUpstream = async (currentBranch) => {
 	const spinner = createSpinner(`Setting ${currentBranch} upstream and pushing...`).start();
 	try {
-		// const shell = await import("shelljs");
 		const command = `git push --set-upstream origin ${currentBranch}`;
 		const settings = { async: true, silent: true };
 		return new Promise((resolve, reject) => {
