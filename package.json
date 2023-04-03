@@ -43,6 +43,7 @@
 		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
+		"@types/node": "^18.15.11",
 		"@types/shelljs": "^0.8.11",
 		"debug": "^4.1.1",
 		"eslint": "^8.35.0",
