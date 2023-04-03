@@ -250,7 +250,7 @@ const gitPushStep = async (message) => {
 	try {
 		const command = "git push";
 		const settings = { async: true, silent: true };
-		console.log("Pushing to remote repository...");
+		shell.echo("shell.echo");
 		return new Promise((resolve, reject) => {
 			console.log("Pushing inside promise...");
 			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
@@ -261,7 +261,7 @@ const gitPushStep = async (message) => {
 					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
 			});
 		}).catch((error) => {
-			console.log(error);
+			console.log("catch block error", error);
 			return spinner.error({
 				text: red(bold("ERROR! ") + white(`${error}`))
 			});
@@ -322,7 +322,7 @@ const handleExecResponse = (code, command, settings, resolve, reject) => {
 	if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
-		console.log("reject: ", reject[0]);
+		console.log("reject: ", reject);
 		reject({ code, command, settings, resolve, reject });
 	}
 };
