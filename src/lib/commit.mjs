@@ -250,7 +250,9 @@ const gitPushStep = async (message) => {
 	try {
 		const command = "git push";
 		const settings = { async: true, silent: true };
+		console.log("Pushing to remote repository...");
 		return new Promise((resolve, reject) => {
+			console.log("Pushing inside promise...");
 			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
 		}).then(() => {
 			return spinner.success({
@@ -289,7 +291,9 @@ const gitPushUpstream = async (currentBranch) => {
 	try {
 		const command = `git push --set-upstream origin ${currentBranch}`;
 		const settings = { async: true, silent: true };
+		console.log("Setting upstream...");
 		return new Promise((resolve, reject) => {
+			console.log("Setting upstream inside Promise...");
 			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
 		}).then(() => {
 			return spinner.success({
@@ -314,6 +318,7 @@ const gitPushUpstream = async (currentBranch) => {
 };
 
 const handleExecResponse = (code, command, settings, resolve, reject) => {
+	console.log("handleExecResponse...");
 	if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
