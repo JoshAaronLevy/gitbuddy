@@ -186,7 +186,6 @@ const codeChangeSelect = () => {
 
 const runGitBuddyCore = async () => {
 	try {
-		console.log("commandArgs: ", commandArgs);
 		await commit(commandArgs);
 		return inputBranchName();
 	} catch (error) {
