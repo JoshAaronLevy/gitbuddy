@@ -319,6 +319,7 @@ const gitPushUpstream = async (currentBranch) => {
 };
 
 const handleExecResponse = (code, command, settings, resolve, reject) => {
+	console.log("code: ", code);
 	if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
 	} else {
