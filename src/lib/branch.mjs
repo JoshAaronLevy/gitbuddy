@@ -39,7 +39,6 @@ export default async (commandOptions) => {
 		console.log(commandArgs);
 		console.error(error);
 	}
-	// process.exit(0);
 };
 
 const getOriginUrl = async () => {
@@ -232,11 +231,11 @@ const validateNewBranchName = async (input) => {
 			input = null;
 			spinner.error({
 				text: red(bold("ERROR! ")) +
-					white(`Branch name ${input} already exists or invalid. Please enter a new branch name.`)
+					white(bold(`Branch name ${input} already exists or invalid. Please enter a new branch name.`))
 			});
 		} else {
 			spinner.success({
-				text: "Branch name validated"
+				text: white(bold("Branch name validated"))
 			});
 			return createBranch(input);
 		}
@@ -250,7 +249,7 @@ const createBranch = async (branchName) => {
 		const spinner = createSpinner(`Creating and switching to branch: ${branchName}...`).start();
 		shell.exec(`git checkout -b ${branchName}`, { silent: true });
 		spinner.success({
-			text: "Branch created locally. Now working on " + green(bold(`${branchName}`))
+			text: white(bold("Branch created locally. Now working on ")) + green(bold(`${branchName}`))
 		});
 		return gitPushCheck(branchName);
 	} catch (error) {
@@ -272,27 +271,6 @@ const gitPushCheck = (branchName) => {
 			return error;
 		});
 };
-
-// const gitPushUpstream = async (branchName) => {
-// 	const spinner = createSpinner(`Setting ${branchName} upstream and pushing...`).start();
-// 	try {
-// 		shell.exec(`git push -u origin ${branchName}`, { silent: true });
-// 		return spinner.success({
-// 			text: white("Branch created in remote repository\n") +
-// 				green(bold("Summary:\n")) +
-// 				white(bold("Branch Name: ")) + white(`${currentBranch}\n`) +
-// 				white(bold("Git Remote URL: ")) + white(`${remoteUrl}`)
-// 		});
-// 	} catch (p_1) {
-// 		return spinner.error({
-// 			text: red.bold("ERROR!") +
-// 				white(
-// 					" Could not push to remote repository via --set-upstream. See details below:\n" +
-// 					`${p_1}`
-// 				)
-// 		});
-// 	}
-// };
 
 const gitPushUpstream = async (branchName) => {
 	const spinner = createSpinner(`Setting ${branchName} upstream and pushing...`).start();
