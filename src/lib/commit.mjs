@@ -249,9 +249,12 @@ const gitPushStep = async (message) => {
 	const spinner = createSpinner(`Pushing "${message}" to remote repository...`).start();
 	try {
 		const command = "git push";
-		const settings = { async: true, silent: false };
+		const settings = { async: true, silent: true };
 		return new Promise((resolve, reject) => {
-			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
+			shell.exec(command, settings, (code) => {
+				spinner.stop();
+				return handleExecResponse(code, command, settings, spinner, resolve, reject);
+			});
 		}).then(() => {
 			return spinner.success({
 				text: white(bold("Code changes pushed\n")) +
@@ -313,8 +316,9 @@ const gitPushUpstream = async (currentBranch) => {
 	}
 };
 
-const handleExecResponse = async (code, command, settings, resolve, reject) => {
+const handleExecResponse = async (code, command, settings, spinner, resolve, reject) => {
 	if (code === 128) {
+		spinner.stop();
 		return await gitPushUpstream(currentBranch);
 	} else if (code === 0) {
 		resolve({ code, command, settings, resolve, reject });
