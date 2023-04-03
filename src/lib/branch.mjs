@@ -1,7 +1,7 @@
 import enquirer from "enquirer";
 import shell from "shelljs";
 import { createSpinner } from "nanospinner";
-import { red, yellow, green, white, bold } from "colorette";
+import { red, yellow, green, white, bold, underline } from "colorette";
 import commit from "./commit.mjs";
 let allBranches = [];
 let validBranches = [];
@@ -20,6 +20,7 @@ let defaultInvalidBranches = [
 	""
 ];
 let currentBranch = "";
+let branchUrl = "";
 let branchName = "";
 let remoteUrl = "";
 let commandArgs;
@@ -29,6 +30,7 @@ export default async (commandOptions) => {
 	try {
 		remoteUrl = await getOriginUrl();
 		currentBranch = await identifyCurrentBranch();
+		branchUrl = `${remoteUrl}/tree/${currentBranch}`;
 		allBranches = await identifyAllBranches();
 		validBranches = await identifyValidBranches();
 		invalidBranches = await identifyInvalidBranches();
@@ -37,7 +39,7 @@ export default async (commandOptions) => {
 		console.log(commandArgs);
 		console.error(error);
 	}
-	process.exit(0);
+	// process.exit(0);
 };
 
 const getOriginUrl = async () => {
@@ -271,24 +273,63 @@ const gitPushCheck = (branchName) => {
 		});
 };
 
+// const gitPushUpstream = async (branchName) => {
+// 	const spinner = createSpinner(`Setting ${branchName} upstream and pushing...`).start();
+// 	try {
+// 		shell.exec(`git push -u origin ${branchName}`, { silent: true });
+// 		return spinner.success({
+// 			text: white("Branch created in remote repository\n") +
+// 				green(bold("Summary:\n")) +
+// 				white(bold("Branch Name: ")) + white(`${currentBranch}\n`) +
+// 				white(bold("Git Remote URL: ")) + white(`${remoteUrl}`)
+// 		});
+// 	} catch (p_1) {
+// 		return spinner.error({
+// 			text: red.bold("ERROR!") +
+// 				white(
+// 					" Could not push to remote repository via --set-upstream. See details below:\n" +
+// 					`${p_1}`
+// 				)
+// 		});
+// 	}
+// };
+
 const gitPushUpstream = async (branchName) => {
 	const spinner = createSpinner(`Setting ${branchName} upstream and pushing...`).start();
 	try {
-		shell.exec(`git push -u origin ${branchName}`, { silent: true });
-		return spinner.success({
-			text: white("Branch created in remote repository\n") +
-				green(bold("Summary:\n")) +
-				white(bold("Branch Name: ")) + white(`${currentBranch}\n`) +
-				white(bold("Git Remote URL: ")) + white(`${remoteUrl}`)
+		const command = `git push --set-upstream origin ${branchName}`;
+		const settings = { async: true, silent: true };
+		return new Promise((resolve, reject) => {
+			shell.exec(command, settings, (code) => handleExecResponse(code, command, settings, resolve, reject));
+		}).then(() => {
+			return spinner.success({
+				text: white(bold("Code changes pushed\n")) +
+					white(bold("View Repo: ")) + white(underline(`${remoteUrl}\n`)) +
+					white(bold("View Branch: ")) + white(underline(`${branchUrl}`))
+			});
+		}).catch((error) => {
+			return spinner.error({
+				text: red(bold("ERROR! ") + white(`${error}`))
+			});
 		});
 	} catch (p_1) {
 		return spinner.error({
-			text: red.bold("ERROR!") +
+			text: red(bold("ERROR!")) +
 				white(
 					" Could not push to remote repository via --set-upstream. See details below:\n" +
 					`${p_1}`
 				)
 		});
+	}
+};
+
+const handleExecResponse = async (code, command, settings, resolve, reject) => {
+	if (code === 128) {
+		return await gitPushUpstream(currentBranch);
+	} else if (code === 0) {
+		resolve({ code, command, settings, resolve, reject });
+	} else {
+		reject({ code, command, settings, resolve, reject });
 	}
 };
 
