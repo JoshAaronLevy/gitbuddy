@@ -1,16 +1,16 @@
 {
 	"name": "gitbuddy",
-	"version": "5.2.9",
+	"version": "5.2.10",
 	"description": "The best git friend you've ever had.",
 	"repository": {
 		"url": "https://github.com/JoshAaronLevy/gitbuddy",
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./dist/bin/index.mjs",
+	"main": "./src/bin/index.mjs",
 	"scripts": {
 		"lint": "eslint ./src",
-		"start": "node ./dist/bin/index.mjs",
+		"start": "node ./src/bin/index.mjs",
 		"build": "rm -rf dist && tsc",
 		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
@@ -31,7 +31,7 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./dist/bin/index.mjs"
+		"gitbuddy": "./src/bin/index.mjs"
 	},
 	"dependencies": {
 		"colorette": "^2.0.19",
