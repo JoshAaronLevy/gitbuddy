@@ -7,10 +7,10 @@
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./src/index.mjs",
+	"main": "./dist/bin/index.mjs",
 	"scripts": {
 		"lint": "eslint ./src",
-		"start": "node ./src/index.mjs",
+		"start": "node ./dist/bin/index.mjs",
 		"build": "rm -rf dist && tsc",
 		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
@@ -31,7 +31,7 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./src/index.mjs"
+		"gitbuddy": "./dist/bin/index.mjs"
 	},
 	"dependencies": {
 		"colorette": "^2.0.19",
@@ -40,9 +40,13 @@
 		"functional-promises": "^2.0.3",
 		"nanospinner": "^1.1.0",
 		"ora": "^6.3.0",
-		"shelljs": "^0.8.5"
+		"shelljs": "^0.8.5",
+		"yargs": "^17.1.1-candidate.0"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.21.0",
+		"@babel/core": "^7.21.4",
+		"@babel/preset-env": "^7.21.4",
 		"@types/node": "^18.15.11",
 		"@types/shelljs": "^0.8.11",
 		"debug": "^4.1.1",
