@@ -8,7 +8,7 @@ module.exports = {
 	],
 	"parserOptions": {
 		"ecmaVersion": "latest",
-		"sourceType": "module"
+		"sourceType": "commonjs"
 	},
 	"rules": {
 		"indent": [
@@ -29,7 +29,6 @@ module.exports = {
 		]
 	},
 	"ignorePatterns": [
-		"node_modules/",
-		"dist/"
+		"node_modules/"
 	]
 };

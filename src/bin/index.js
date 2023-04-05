@@ -21,7 +21,7 @@ program
 	.option("-p, --push", "Automatically push to remote repository")
 	.option("-b, --branch", "Manage branches")
 	.option("-c, --commit", "Commit prompts")
-	.version("5.2.10", "-v, --version")
+	.version("5.2.11", "-v, --version")
 	.action(async (message, command) => {
 		try {
 			if (command) {
