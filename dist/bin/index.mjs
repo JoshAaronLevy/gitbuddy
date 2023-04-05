@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Command } from "commander";
 const program = new Command();
 import { isColorSupported } from "colorette";
-import main from "../lib/main";
-import branch from "../lib/branch";
-import commit from "../lib/commit";
+import main from "../lib/main.mjs";
+import branch from "../lib/branch.mjs";
+import commit from "../lib/commit.mjs";
 let commandOptions = {
     colorSupported: isColorSupported,
     flags: {

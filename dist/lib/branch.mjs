@@ -11,7 +11,7 @@ import enquirer from "enquirer";
 import shell from "shelljs";
 import { createSpinner } from "nanospinner";
 import { red, yellow, green, white, bold, underline } from "colorette";
-import commit from "./commit";
+import commit from "./commit.mjs";
 let allBranches = [];
 let validBranches = [];
 let invalidBranches = [];

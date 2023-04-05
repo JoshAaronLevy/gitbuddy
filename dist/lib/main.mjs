@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { red, white, yellow, bold } from "colorette";
 import enquirer from "enquirer";
-import commit from "./commit";
-import branch from "./branch";
+import commit from "./commit.mjs";
+import branch from "./branch.mjs";
 export default (commandOptions) => {
     return selectOperation(commandOptions);
 };
