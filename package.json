@@ -7,10 +7,11 @@
 		"type": "git",
 		"directory": "git"
 	},
-	"main": "./src/bin/index.mjs",
+	"main": "./src/bin/index.js",
+	"type": "commonjs",
 	"scripts": {
 		"lint": "eslint ./src",
-		"start": "node ./src/bin/index.mjs",
+		"start": "node ./src/bin/index.js",
 		"build": "rm -rf dist && tsc",
 		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
@@ -31,11 +32,12 @@
 	"license": "MIT",
 	"preferGlobal": true,
 	"bin": {
-		"gitbuddy": "./src/bin/index.mjs"
+		"gitbuddy": "./src/bin/index.js"
 	},
 	"dependencies": {
+		"chalk": "^2.4.2",
 		"colorette": "^2.0.19",
-		"commander": "^10.0.0",
+		"commander": "^3.0.2",
 		"enquirer": "^2.3.6",
 		"functional-promises": "^2.0.3",
 		"nanospinner": "^1.1.0",

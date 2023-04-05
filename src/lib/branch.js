@@ -1,8 +1,8 @@
-import enquirer from "enquirer";
-import shell from "shelljs";
-import { createSpinner } from "nanospinner";
-import { red, yellow, green, white, bold, underline } from "colorette";
-import commit from "./commit.mjs";
+const { createSpinner } = require("nanospinner");
+const { red, yellow, green, white, bold, underline } = require("colorette");
+const shell = require("shelljs");
+const { Input, Select, MultiSelect } = require("enquirer");
+const commit = require("./commit");
 let allBranches = [];
 let validBranches = [];
 let invalidBranches = [];
@@ -25,7 +25,7 @@ let branchName = "";
 let remoteUrl = "";
 let commandArgs;
 
-export default async (commandOptions) => {
+module.exports = async (commandOptions) => {
 	commandArgs = commandOptions;
 	try {
 		remoteUrl = await getOriginUrl();
@@ -469,18 +469,18 @@ const branchDeleteAborted = async () => {
 /* --------------------
 GitBuddy Branch prompts
 -------------------- */
-const branchInit = new enquirer.Select({
+const branchInit = new Select({
 	name: "branchInit",
 	message: "What would you like to do?",
 	choices: ["Delete local branches", "Create local and remote branch"]
 });
 
-const branchCreate = new enquirer.Input({
+const branchCreate = new Input({
 	name: "branchInput",
 	message: "Enter branch name"
 });
 
-const gitStatusSelect = new enquirer.Select({
+const gitStatusSelect = new Select({
 	name: "gitStatusSelect",
 	message: "What would you like to do?",
 	choices: [
@@ -491,19 +491,19 @@ const gitStatusSelect = new enquirer.Select({
 	]
 });
 
-const deleteBranchConfirm = new enquirer.Select({
+const deleteBranchConfirm = new Select({
 	name: "deleteBranchConfirm",
 	message: "NOTE: This cannot be undone.",
 	choices: ["Yes", "No"]
 });
 
-const pushConfirm = new enquirer.Select({
+const pushConfirm = new Select({
 	name: "pushConfirm",
 	message: "Would you like to create the branch in your remote repository now?",
 	choices: ["Yes", "No"]
 });
 
-const branchSelect = new enquirer.MultiSelect({
+const branchSelect = new MultiSelect({
 	type: "checkbox",
 	name: "branchSelect",
 	message: "Select the branch(es) you want to delete (Space to select)",

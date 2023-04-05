@@ -1,12 +1,10 @@
-import { Command } from "commander";
-const program = new Command();
-import { isColorSupported } from "colorette";
-import main from "../lib/main.mjs";
-import branch from "../lib/branch.mjs";
-import commit from "../lib/commit.mjs";
+#!/usr/bin/env node
+const program = require("commander");
+const main = require("../lib/main");
+const commit = require("../lib/commit");
+const branch = require("../lib/branch");
 
 let commandOptions = {
-	colorSupported: isColorSupported,
 	flags: {
 		all: false,
 		push: false,
@@ -16,7 +14,8 @@ let commandOptions = {
 	commitMessage: null
 };
 
-program.description("Example: gitbuddy \"I fixed a bug\"")
+program
+	.description("Example: gitbuddy \"I fixed a bug\"")
 	.option("[message]", "Commit message")
 	.option("-A, -a, --all", "Stage all files")
 	.option("-p, --push", "Automatically push to remote repository")
@@ -25,11 +24,13 @@ program.description("Example: gitbuddy \"I fixed a bug\"")
 	.version("5.2.10", "-v, --version")
 	.action(async (message, command) => {
 		try {
-			if (Object.keys(command._optionValues).length > 0) {
-				Object.keys(command._optionValues).map((key) => commandOptions.flags[key] = true);
-			}
-			if (command.args.length > 0) {
-				commandOptions.commitMessage = command.args[0];
+			if (command) {
+				if (Object.keys(command._optionValues).length > 0) {
+					Object.keys(command._optionValues).map((key) => commandOptions.flags[key] = true);
+				}
+				if (command.args.length > 0) {
+					commandOptions.commitMessage = command.args[0];
+				}
 			}
 			const includedFlags = Object.values(commandOptions.flags).filter((value) => value === true);
 			if (includedFlags.length > 0) {

@@ -1,9 +1,9 @@
-import { red, white, yellow, bold } from "colorette";
-import enquirer from "enquirer";
-import commit from "./commit.mjs";
-import branch from "./branch.mjs";
+const commit = require("./commit");
+const branch = require("./branch");
+const { Select } = require("enquirer");
+const chalk = require("chalk");
 
-export default (commandOptions) => {
+module.exports = async (commandOptions) => {
 	return selectOperation(commandOptions);
 };
 
@@ -24,18 +24,14 @@ const selectOperation = (commandOptions) => {
 		});
 };
 
-const commandError = async (error) => {
-	return red(bold("ERROR! ")) + white(`"Could not execute commandOptions:"\n ${error}`);
-};
+const commandError = (error) => chalk.red.bold("ERROR! ") + chalk.white(`"Could not execute command:"\n ${error}`);
 
-const commandAlert = async (message) => {
-	return yellow(bold("Alert! ")) + white(`${message}`);
-};
+const commandAlert = async (message) => chalk.red.bold("ALERT! ") + chalk.white(`${message}`);
 
 /* ------------------
 GitBuddy entry prompt
 ------------------ */
-const operationSelect = new enquirer.Select({
+const operationSelect = new Select({
 	name: "selectOperation",
 	message: "What would you like to do?",
 	choices: ["Commit Changes", "Manage Branches"]

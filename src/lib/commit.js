@@ -1,7 +1,9 @@
-import { createSpinner } from "nanospinner";
-import { red, yellow, green, white, bold, underline } from "colorette";
-import enquirer from "enquirer";
-import shell from "shelljs";
+const { createSpinner } = require("nanospinner");
+const { red, yellow, green, white, bold, underline } = require("colorette");
+const shell = require("shelljs");
+const { Input, Select, MultiSelect } = require("enquirer");
+// const ora = require("ora");
+// const chalk = require("chalk");
 let remoteUrl = "";
 let branchUrl = "";
 let stageFlag = false;
@@ -14,7 +16,7 @@ let pushFlag = false;
 let currentBranch = "";
 let modifiedFiles = [];
 
-export default async (commandOptions) => {
+module.exports = async (commandOptions) => {
 	try {
 		if (commandOptions.all) stageFlag = true;
 		if (commandOptions.push) pushFlag = true;
@@ -355,19 +357,19 @@ const commitError = (error) => {
 /* ------------------
 GitBuddy Core prompts
 ------------------ */
-const statusCheck = new enquirer.MultiSelect({
+const statusCheck = new MultiSelect({
 	type: "checkbox",
 	name: "stageFiles",
 	message: "1/3: Select the files you want to stage (Space to select)",
 	choices: modifiedFiles
 });
 
-const commitMsg = new enquirer.Input({
+const commitMsg = new Input({
 	name: "commitInput",
 	message: "2/3: Enter commit message"
 });
 
-const pushCheck = new enquirer.Select({
+const pushCheck = new Select({
 	name: "pushCheck",
 	message: "3/3: Push to remote repository?",
 	choices: ["Yes", "No"]
