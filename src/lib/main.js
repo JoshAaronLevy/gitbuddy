@@ -1,7 +1,7 @@
 const commit = require("./commit");
 const branch = require("./branch");
 const { Select } = require("enquirer");
-const chalk = require("chalk");
+const { red, yellow, white, bold } = require("colorette");
 
 module.exports = async (commandOptions) => {
 	return selectOperation(commandOptions);
@@ -24,9 +24,9 @@ const selectOperation = (commandOptions) => {
 		});
 };
 
-const commandError = (error) => chalk.red.bold("ERROR! ") + chalk.white(`"Could not execute command:"\n ${error}`);
+const commandError = (error) => red(bold("ERROR! ")) + white(`"Could not execute command:"\n ${error}`);
 
-const commandAlert = async (message) => chalk.red.bold("ALERT! ") + chalk.white(`${message}`);
+const commandAlert = (message) => yellow(bold("ALERT! ")) + white(`${message}`);
 
 /* ------------------
 GitBuddy entry prompt

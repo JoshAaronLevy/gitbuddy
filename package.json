@@ -12,8 +12,6 @@
 	"scripts": {
 		"lint": "eslint ./src",
 		"start": "node ./src/bin/index.js",
-		"build": "rm -rf dist && tsc",
-		"dev": "npm run build && npm start",
 		"deploy": "git add -A && git commit -m 'Updated version' && git push && npm publish"
 	},
 	"author": {
@@ -35,24 +33,17 @@
 		"gitbuddy": "./src/bin/index.js"
 	},
 	"dependencies": {
-		"chalk": "^2.4.2",
 		"colorette": "^2.0.19",
 		"commander": "^3.0.2",
 		"enquirer": "^2.3.6",
 		"functional-promises": "^2.0.3",
 		"nanospinner": "^1.1.0",
-		"ora": "^6.3.0",
-		"shelljs": "^0.8.5",
-		"yargs": "^17.1.1-candidate.0"
+		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.21.0",
-		"@babel/core": "^7.21.4",
-		"@babel/preset-env": "^7.21.4",
 		"@types/node": "^18.15.11",
 		"@types/shelljs": "^0.8.11",
 		"debug": "^4.1.1",
-		"eslint": "^8.35.0",
-		"typescript": "^5.0.3"
+		"eslint": "^8.35.0"
 	}
 }
